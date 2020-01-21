@@ -14,7 +14,7 @@ class History extends Model
     }
     public function song()
     {
-        return $this->belongsToMany(Song::class);
+        return $this->belongsToMany(Song::class,'History_Songs');
     }
 
 

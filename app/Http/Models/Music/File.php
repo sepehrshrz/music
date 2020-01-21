@@ -8,7 +8,7 @@ class File extends Model
 {protected $fillable=['video','mp3_128','mp3_320','image'];
     public function album()
     {
-        return $this->belongsToMany(Album::class);
+        return $this->belongsToMany(Album::class,'Album_Files');
     }
     public function file()
     {
@@ -16,7 +16,7 @@ class File extends Model
     }
     public function song()
     {
-        return $this->belongsToMany(Song::class);
+        return $this->belongsToMany(Song::class,'song_files');
     }
 
 }

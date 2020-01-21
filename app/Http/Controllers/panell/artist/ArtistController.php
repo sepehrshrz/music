@@ -4,6 +4,7 @@ namespace App\Http\Controllers\panell\artist;
 
 use App\Http\Controllers\Controller;
 use App\Http\Models\Music\Artist;
+use App\Http\Models\Music\File;
 use App\Http\Requests\Panell\Artist\StoreArtistRequest;
 use App\Http\Requests\Panell\Artist\UpdateArtistRequest;
 use App\Http\Resources\panell\artist\ArtistIndexResource;
@@ -22,10 +23,21 @@ class ArtistController extends Controller
      */
     public function index()
     {
-
+if (!auth()->user()->can('view',Artist::class)){
+	abort(403);
+}
         $artists=Artist::paginate();
-        return ArtistIndexResource::collection($artists);
+        $artist= ArtistIndexResource::collection($artists);
+     return view('admin.artists.index',compact('artist'));
+    }
 
+	public function create()
+	{
+		if (!auth()->user()->can('create',Artist::class)){
+			abort(403);
+		}
+
+		return view('admin/artists/create');
     }
 
     /**
@@ -38,11 +50,21 @@ class ArtistController extends Controller
      */
     public function store(StoreArtistRequest $request)
 	{
+		if (!auth()->user()->can('view',Artist::class)){
+			abort(403);
+		}
 		\DB::beginTransaction();
 		try {
 			$artist = new Artist();
 			$artist->fill($request->all());
 			$artist->save();
+			// ------------------------------------ atach file ------------------------------------
+			$file     = new File();
+			$FileName = $request->file('image')->getClientOriginalName();
+			$request->file('image')->move('images/artist_image', $FileName);
+			$file->image = $FileName;
+			$file->save();
+			$artist->file()->attach($file->id);
 			\DB::commit();
 
 			return [
@@ -70,9 +92,42 @@ class ArtistController extends Controller
     public function show(Artist $artist)
     {
 
+		if (!auth()->user()->can('view',Artist::class)){
+			abort(403);
+		}
+   $art=new ShowArtistResource($artist->load('file'));
 
-  return new ShowArtistResource($artist);
+		$artist      = json_decode(json_encode($art->resource));
+//dd($artist);
+		if ($artist->file) {
+			$path    = explode('/', $artist->file[0]->image);
+			$path    = end($path);
+			$storage = '/images/artist_image/' . $path;
+		} else {
+			$storage = '/images/song_image/nophoto.png';
+		}
+//		$artist=json_encode(json_decode($artist));
+		return view('admin.artists.show',compact('storage','artist'));
 
+    }
+
+	public function edit(Artist $id)
+	{
+		if (!auth()->user()->can('create',Artist::class)){
+			abort(403);
+		}
+		$art=new ShowArtistResource($id->load('file'));
+
+		$artist      = json_decode(json_encode($art->resource));
+		if ($artist->file) {
+			$path    = explode('/', $artist->file[0]->image);
+			$path    = end($path);
+			$storage = '/images/artist_image/' . $path;
+		} else {
+			$storage = '/images/song_image/nophoto.png';
+		}
+
+		return view('admin.artists.update',compact('storage','artist'));
 
     }
 
@@ -85,10 +140,25 @@ class ArtistController extends Controller
      */
     public function update(UpdateArtistRequest $request, Artist $artist)
     {
-
+		if (!auth()->user()->can('update',Artist::class)){
+			abort(403);
+		}
 		\DB::beginTransaction();
 		try{    $artist->fill($request->all());
-			$artist->save();
+			$artist->update();
+
+			if ($request->hasFile('image')){
+				$file     =new File();
+				$FileName = $request->file('image')->getClientOriginalName();
+				$request->file('image')->move('images/artist_image', $FileName);
+				$file->image = $FileName;
+//				$file->update($record);
+
+				$file->save();
+				$artist->file()->detach();
+				$artist->file()->attach($file->id);
+			}
+
 			\DB::commit();
 			return[
 				'success'=>true,
@@ -112,8 +182,12 @@ class ArtistController extends Controller
      */
     public function destroy(Artist $artist)
     {
+		if (!auth()->user()->can('delete',Artist::class)){
+			abort(403);
+		}
     	\DB::beginTransaction();
     	try{   $artist->delete();
+    	$artist->file()->detach();
 			\DB::commit();
 			return[
 				'success'=>true,
@@ -130,12 +204,16 @@ class ArtistController extends Controller
 
 	public function restore($id)
 	{
+		if (!auth()->user()->can('forceDelete',Artist::class)){
+			abort(403);
+		}
 		/**
 		 * @mixin Artist
 		 */
 		\DB::beginTransaction();
 		try{
 			Artist::onlyTrashed()->findOrFail($id)->restore();
+
 			\DB::commit();
 			return[
 				'success'=>true,

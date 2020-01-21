@@ -19,8 +19,19 @@ class CreateSongsTable extends Migration
             $table->text('title');
             $table->string('lyric');
             $table->time('duration');
+            $table->enum('slider',\App\Http\Models\Music\Song::sliders)->default(\App\Http\Models\Music\Song::SLIDERFALSE);
+           $table->bigInteger('album_id')->unsigned()->nullable();
+           $table->foreign('album_id')->references('id')->on('albums')->onDelete('cascade');
+
             $table->timestamps();
         });
+		Schema::create('Song_Files', function (Blueprint $table) {
+			$table->bigInteger('song_id')->unsigned();
+			$table->foreign('song_id')->references('id')->on('songs')->onDelete('cascade');
+			$table->bigInteger('file_id')->unsigned();
+			$table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
+
+		});
     }
 
     /**

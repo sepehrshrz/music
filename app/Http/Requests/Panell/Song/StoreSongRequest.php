@@ -25,10 +25,10 @@ class StoreSongRequest extends FormRequest
     {
 		return [
 			'name'      => 'required|min:2|max:15',
-			'title' => 'required|min:5|max:20',
-			'lyric' => 'required|min:10',
-			'duration'  => 'required',
-			'artist_name'=>'required'
+//			'title' => 'required|min:5|max:20',
+//			'lyric' => 'required|min:10',
+//			'duration'  => 'required',
+//			'artist_name'=>'required'
 		];
     }
 }

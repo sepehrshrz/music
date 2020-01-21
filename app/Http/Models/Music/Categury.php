@@ -9,6 +9,6 @@ class Categury extends Model
     protected $fillable=['name'];
     public function song()
     {
-        return $this->belongsToMany(Song::class);
+        return $this->belongsToMany(Song::class,'Category_Songs');
     }
 }

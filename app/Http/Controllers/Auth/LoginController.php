@@ -40,21 +40,23 @@ class LoginController extends Controller
 
 	public function authenticated(Request $request,$user)
 	{
-		return[
-			'success'=>true,
-			'message'=>'با موفقیت وارد شدید',
-
-
-		];
+		return view('admin.dashboard');
+//		return[
+//			'success'=>true,
+//			'message'=>'با موفقیت وارد شدید',
+//
+//
+//		];
     }
 
 	public function loggedout(Request $request)
 	{
-		return[
-			'success'=>true,
-			'message'=>'با موفقیت خارج شدید',
-
-		];
+		return view('welcome');
+//		return[
+//			'success'=>true,
+//			'message'=>'با موفقیت خارج شدید',
+//
+//		];
 
     }
 }

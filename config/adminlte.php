@@ -178,11 +178,11 @@ return [
             'search' => true,
             'topnav' => true,
         ],
-//        [
-//            'text' => 'blog',
-//            'url'  => 'admin/blog',
-//            'can'  => 'manage-blog',
-//        ],
+        [
+            'text' => 'blog',
+            'url'  => 'admin/blog',
+            'can'  => 'manage-blog',
+        ],
 //        [
 //            'text'        => 'pages',
 //            'url'         => 'admin/pages',
@@ -193,7 +193,7 @@ return [
         ['header' => 'موزیک'],
         [
             'text' => 'اهنگها',
-            'url'  => 'admin/settings',
+            'url'  => 'music/song',
             'icon' => 'fas fa-fw fa-user',
         ],
 //        [
@@ -201,20 +201,20 @@ return [
 //            'url'  => 'admin/settings',
 //            'icon' => 'fas fa-fw fa-lock',
 //        ],
-//        [
-//            'text'    => 'multilevel',
-//            'icon'    => 'fas fa-fw fa-share',
-//            'submenu' => [
-//                [
-//                    'text' => 'level_one',
-//                    'url'  => '#',
-//                ],
-//                [
-//                    'text'    => 'level_one',
-//                    'url'     => '#',
+        [
+            'text'    => 'دسته بندی',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text' => 'لیست دسته بندی ها',
+                    'url'  => 'music/category',
+                ],
+                [
+                    'text'    => 'ساخت دسته بندی جدید',
+                    'url'     => 'music/category/create',
 //                    'submenu' => [
 //                        [
-//                            'text' => 'level_two',
+//                            'text' => 'ژانرها',
 //                            'url'  => '#',
 //                        ],
 //                        [
@@ -232,26 +232,94 @@ return [
 //                            ],
 //                        ],
 //                    ],
-//                ],
+                ],
 //                [
 //                    'text' => 'level_one',
 //                    'url'  => '#',
 //                ],
-//            ],
-//        ],
-//        ['header' => 'labels'],
-//        [
-//            'text'       => 'important',
-//            'icon_color' => 'red',
-//        ],
-//        [
-//            'text'       => 'warning',
-//            'icon_color' => 'yellow',
-//        ],
-//        [
-//            'text'       => 'information',
-//            'icon_color' => 'aqua',
-//        ],
+            ],
+        ],
+
+
+
+		[
+			'text'    => 'ژانر ها',
+			'icon'    => 'fas fa-fw fa-share',
+			'submenu' => [
+				[
+					'text' => 'لیست ژانر ها',
+					'url'  => 'music/genre',
+				],
+				[
+					'text'    => 'ساخت ژانر جدید',
+					'url'     => 'music/genre/create',
+
+
+
+
+				],
+
+			],
+		],
+
+
+
+
+		[
+			'text'    => 'خواننده ها',
+			'icon'    => 'fas fa-fw fa-share',
+			'submenu' => [
+				[
+					'text' => 'لیست خواننده ها',
+					'url'  => 'music/artist',
+				],
+				[
+					'text'    => 'ساخت خواننده جدید',
+					'url'     => 'music/artist/create',
+
+
+
+
+				],
+
+			],
+		],
+
+		[
+			'text'    => 'آلبومها',
+			'icon'    => 'fas fa-fw fa-share',
+			'submenu' => [
+				[
+					'text' => 'لیست آلبومها',
+					'url'  => 'music/album',
+				],
+				[
+					'text'    => 'ساخت آلبوم جدید',
+					'url'     => 'music/album/create',
+
+
+
+
+				],
+
+			],
+		],
+
+
+
+        ['header' => 'تنظیمات'],
+        [
+            'text'       => 'تنظیمات 1',
+            'icon_color' => 'red',
+        ],
+        [
+            'text'       => 'تنظیمات 2',
+            'icon_color' => 'yellow',
+        ],
+        [
+            'text'       => 'تنظیمات 3',
+            'icon_color' => 'aqua',
+        ],
     ],
 
     /*

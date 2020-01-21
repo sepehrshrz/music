@@ -14,7 +14,7 @@ class SongController extends Controller
 
 	public function show($id)
 	{
-		return resolve('App\Repositories\Music\SongRepositoryInterface')
-			->getSong($id);
+//		return resolve('App\Repositories\Music\SongRepositoryInterface')
+//			->getSong($id);
     }
 }

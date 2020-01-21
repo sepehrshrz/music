@@ -28,6 +28,6 @@ class Album extends Model
     }
     public function file()
     {
-        return $this->belongsToMany(File::class);
+        return $this->belongsToMany(File::class,'Album_Files');
     }
 }

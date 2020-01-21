@@ -17,6 +17,15 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
+    const ROLE_ADMIN='admin';
+    const ROLE_SUPER_ADMIN='super_admin';
+    const ROLE_MANAGER='manager';
+    const ROLES = [
+    	self::ROLE_ADMIN,
+		self::ROLE_MANAGER,
+		self::ROLE_SUPER_ADMIN,
+
+	];
 
     /**
      * The attributes that are mass assignable.
@@ -53,7 +62,7 @@ class User extends Authenticatable
     }
     public function history()
     {
-        return $this->belongsTo(History::class);
+        return $this->hasMany(History::class);
     }
     public function playlists()
     {

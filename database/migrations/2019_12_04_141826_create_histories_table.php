@@ -22,8 +22,8 @@ class CreateHistoriesTable extends Migration
             $table->timestamps();
         });
         Schema::create('History_Songs', function (Blueprint $table) {
-            $table->bigInteger('historie_id')->unsigned();
-            $table->foreign('historie_id')->references('id')->on('histories')->onDelete('cascade');
+            $table->bigInteger('history_id')->unsigned();
+            $table->foreign('history_id')->references('id')->on('histories')->onDelete('cascade');
             $table->bigInteger('song_id')->unsigned();
             $table->foreign('song_id')->references('id')->on('songs')->onDelete('cascade');
             

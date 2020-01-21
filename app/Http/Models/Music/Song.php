@@ -6,14 +6,20 @@ use App\Http\Models\User\Favorite;
 use App\Http\Models\User\History;
 use App\Http\Models\User\Playlist;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Self_;
 
 class Song extends Model
 {
 	protected $fillable=['name','title','lyric','duration'];
-
+const SLIDERTRUE='true';
+const SLIDERFALSE='false';
+const sliders=[
+	self::SLIDERTRUE,
+	self::SLIDERFALSE,
+];
     public function history()
     {
-        return $this->belongsToMany(History::class);
+        return $this->belongsToMany(History::class,'History_Songs');
     }
     public function album()
     {
@@ -25,7 +31,7 @@ class Song extends Model
     }
     public function categury()
     {
-        return $this->belongsToMany(Categury::class);
+        return $this->belongsToMany(Categury::class,'Category_Songs');
     }
     public function comment()
     {
@@ -33,12 +39,12 @@ class Song extends Model
     }
     public function file()
     {
-        return $this->belongsToMany(File::class);
+        return $this->belongsToMany(File::class,'song_files');
     }
 
     public function like()
     {
-        return $this->belongsToMany(Like::class);
+        return $this->belongsToMany(Like::class,'Song_Likes');
     }
     public function playlistS()
     {
@@ -54,6 +60,6 @@ class Song extends Model
     }
     public function genre()
 	{
-		return $this->belongsToMany(Genre::class);
+		return $this->belongsToMany(Genre::class,'Genre_songs');
 	}
 }
